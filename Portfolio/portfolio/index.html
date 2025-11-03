@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liam Emmerson | Web Developer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <h1>LE</h1>
+            <ul>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="GITHUB LINK TO PROJECTS" target="_blank">Github</a></li>
+                <li><a href="#contactSection" id="hire-me">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section class="welcome">
+            <section class="welcome-text">
+                <h2>Hello World...</h2>
+                <p>I'm Liam Emmerson! <span style="color: var(--accent); font-size: 22px;"></span> </p>
+                <p>A Junior developer, with a passion for cyber security, working with a diverse set of languages and building </p>
+                <a href="GITHUB CV PDF" download="CV HERE " class="btn">Download CV</a>
+                <a href="LINKEDIN ADDRESS" target="_blank" class="btn">
+                <i class="fa-brands fa-linkedin fa-xl" style="color: #0a7cff;"></i>
+                </a>
+            </section>
+            <img src="/Lessons/portfolio/assets/images/Me and Ash.jpg"  alt="LDE" class="welcome-img">
+        </section>
+    <section class="about-languages-container">
+            <section class="about">
+                <h2 class="section-title">About Me</h2>
+                <p><span style="font-size: 26px;">👋</span>Hello! I'm Liam Emmerson, a software developer driven by a passion for the unknown.
+                My adventures began with Udemy, self teaching small segments of code and modding online games, and since then, 
+                I've developed my skills in languages such as 
+                <span style="color: var(--accent);">HTML</span>, <span style="color: var(--accent);">CSS</span>, 
+                <span style="color: var(--accent);"> JavaScript</span> and  <span style="color: var(--accent);">C# </span>  
+                I specialise in creating secure, scalable applications that exceed user expectations. Im now expanding my focus to cyber security, teaching myself how to protect systems and data. I enjoy solving problems and learning how to keep technology safe and secure.<br><br> When I'm not coding, you'll find me fine-tuning aquarium paramaters for specialist corals and exploring Cyber security through self taught tutorials via TryHackMe.com. Its curiosity and the desire to know more that fuels my work in software development.</p>
+            </section>
+            <section class="code-section">
+            <h2 class="section-title"> Languages</h2>
+            <section class="code-grid">
+                <section class="code-item"><i class="fab fa-html5"></i><p>HTML5</p></section>
+                <section class="code-item"><i class="fab fa-css3-alt"></i><p>CSS3</p></section>
+                <section class="code-item"><i class="fab fa-js-square"></i><p>JavaScript</p></section>
+                <section class="code-item"><i class="fa-solid fa-code"></i><p>C#</p></section>
+                <section class="code-item"><i class="fab fa-git-alt"></i><p>Git</p></section>
+                <section class="code-item"><i class="fa-solid fa-database"></i><p>SQL</p></section>
+            </section>
+        </section>
+    </section>
+        <h2 class="section-title">Projects</h2>
+        <section id="projects">
+            <section class="card">
+                <img src="/Lessons/portfolio/assets/images/TipCalculatorScreenshot.png" alt="">
+                <section class="card-content">
+                    <h3>Tip Calculator</h3>
+                    <p>A lightweight application for tip management</p>
+                    <a href="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" target="_blank" class="btn">View Project</a>
+                </section>
+            </section>
+            <section class="card">
+                <img src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" alt="">
+                <section class="card-content">
+                    <h3></h3>
+                    <p></p>
+                    <a href="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" target="_blank" class="btn">View Project</a>
+                </section>
+            </section>
+            <section class="card">
+                <img src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" alt="">
+                <section class="card-content">
+                    <h3></h3>
+                    <p></p>
+                    <a href="https://github.com/Ahmet-p/Quizee" target="_blank" class="btn">View Project</a>
+                </section>
+            </section>
+            <section class="card">
+                <img src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" alt="">
+                <section class="card-content">
+                    <h3></h3>
+                    <p></p>
+                    <a href="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" target="_blank" class="btn">View Project</a>
+                </section>
+            </section>
+            <section class="card">
+                <img src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" alt="">
+                <section class="card-content">
+                    <h3></h3>
+                    <p></p>
+                    <a href="https://ahmet-p.github.io/Ping-Pong/" target="_blank" class="btn">View Project</a>
+                </section>
+            </section>
+        </section>
+        <section id="contactSection" class="contact-container">
+            <h2 class="section-title">Let's Shape The Future Together</h2>
+            <form action="https://formspree.io/f/xpwarkpo" method="POST">
+                <input type="text" name="name" id="name" placeholder="Enter Your Name" required>
+                <input type="email" name="email" id="email" placeholder="Enter Your Email" required>
+                <textarea id="message" name="message" rows="4" placeholder="Enter Your Message"></textarea>
+                <button type="submit" id="contact-button">Submit</button>
+            </form>
+        </section>
+    </main>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rock Paper Scissors!</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <!-- Built a game window for everything within the window  -->
+    <section class = "Container">
+        <!-- Seperate section for results  -->
+        <section class = "Results-Table">
+            <section class = "Result-Image">
+                <span class = "Player-Results">
+                    <img src="Media/rock.jpg" alt="">
+                </span>
+                <span class = "Ai-Results">
+                    <img src="Media/rock.jpg" alt="">
+                </span>
+            </section>
+            <!-- Section for the center text  -->
+            <section class ="Result">Pick your choice! <br> Good Luck!</section>
+            <!-- section for the options to pick  -->
+                <section class="Image_Options">
+                    <span class="Img_Option">
+                    <img src="Media/rock.jpg" alt="">
+                    <p>Rock</p>
+                    </span>
+                    <span class="Img_Option">
+                    <img src="Media/paper.png" alt="">
+                    <p>Paper</p>
+                    </span>
+                    <span class="Img_Option">
+                    <img src="Media/scissors.png" alt="">
+                    <p>Scissors</p>
+                    </span>
+                </section>
+        </section>
+            <section class = "ScoreTable">
+                <p>Player: <span id="PlayerScore">0</span> | AI: <span id= "AiScore"> 0 </span> </p>
+            </section>
+            <section class = "ResetButton"> 
+            <button class ="ResetButton"> Reset Score</button>
+            </section>
+    </body>
+    <script src="./script.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tip Calculator</title>
+    <link rel="stylesheet" href="./style.css">
+    <script defer src="./script.js"></script>
+</head>
+<body>
+    <h2>Tip Calculator</h2>
+    <label for="enteredBill">Bill Amount £:</label>
+    <input type="number" id="enteredBill" placeholder="Please enter you bill total" min="0" step="0.01">   <!-- min of 0 entered but in increments of 0.01  -->
+
+<!-- Leave tip option, again to not force a tip, but also allow people to say no -->
+<label>
+    <input type="checkbox" id="leaveTip">Do you want to tip?
+</label>
+<!-- not sure if i should use div/section  -->
+<!--  Tip selection stage -->
+<!-- added styling for later use -->
+<div name ="tipAmounts" id="tipAmounts" style=" display:none;">  
+    <label for="tipPercentage">Tip percentage:</label>
+    <!-- created my label for tip percentage -->
+    <select id="tipPercentage">
+        <option value="5">5%</option>
+        <option value="10">10%</option>
+        <option value="15">15%</option>
+        <option value="custom">Custom</option>
+    </select>
+    <!-- Options added to my id (using: https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/option )-->
+    <!--  adding the custom tip option using an input from the user -->
+    <input type="number" id="customTip" placeholder="Enter Custom %" style="display: none;" min="0">
+    <!-- added a minimum value to the id of 0 -->
+</div>
+<!-- adding a button for the user to interact with -->
+<button id="calculateButton">Calculate your bill</button>
+
+<!--  now the results for use -->
+
+<div id="Result"></div>
+
+</body>
+</html>

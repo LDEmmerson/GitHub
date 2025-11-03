@@ -1,0 +1,112 @@
+/* imported fonts from google */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap');
+  *{
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: white;
+    height: 100vh;
+}
+.Container {
+    padding: 5rem 6rem;
+    background-color: rgba(255, 255, 255, 0.945);
+    border-radius: 10px;
+    box-shadow: 0 10px 10px black ;
+    border: solid 2px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.Container.GameStarted .Player-Results{
+    transform-origin: left;
+    animation: playerShake 0.75s ease infinite; /*make the player option shake*/
+
+}
+@keyframes playerShake {
+    50% {
+        transform: rotate(15deg);
+    }
+}
+.Container.GameStarted .Ai-Results{
+    transform-origin: right;
+    animation: aiShake 0.75s ease infinite; /*make the Ai option shake*/
+}
+@keyframes aiShake {
+    50% {
+        transform: rotate(-15deg);
+    }
+}
+ /* changed the sizes of my images as they are hugeeee */
+.Result-Image{
+    display: flex;
+    column-gap: 7rem;  /*added a gap inbetween the two images */
+}
+.Result-Image img {
+    /* Set to 100 x 100  */
+    width: 100px;
+    height: 100px;
+}
+.Ai-Results img{
+    transform: rotate(-180deg); /* flipped the 180 to the left */
+    transform: scaleX(-1);      /* turn the image upside down to look corret */
+}
+/* Displaying the results*/
+.Result{
+    text-align: center;
+    font-size: 20px;
+    color: black;
+    margin-top: 2rem;
+} /*set my image sizes agin */
+.Img_Option img{
+    width: 50px;
+    height: 50px;
+}
+.Image_Options{
+    display: flex;
+    align-items: center;
+    margin: 2rem;
+    justify-content: space-around;
+}
+.Img_Option{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    opacity: 0.5;
+    transition: ease 0.5S;
+}
+.Container.GameStarted .Image_Options{
+    pointer-events: none; /* Prevents the users starting a background game while the animations run */
+}
+.Img_Option:hover{
+    opacity: 1;
+    cursor: pointer;
+}
+.Img_Option.active{
+    opacity: 1;
+}
+.Img_Option img{
+    pointer-events: none;
+    
+}
+.Img_Option p{
+    margin: 1rem;
+    pointer-events: none;
+}
+.ScoreTable{
+    margin: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.ResetButton{
+    display: flex;
+    margin: 1rem;
+    justify-content: center;
+    align-items: center;
+}
