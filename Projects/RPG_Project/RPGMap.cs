@@ -27,12 +27,12 @@ public class Room
 
     public async Task Describe() // Creating my describe method
     {
-        await RPGMethods.Narrator($"\n=== {Name} ===",10);
+        await RPGMethods.Narrator($"\n=== {Name} ===", 10);
         await RPGMethods.Narrator(Description, 10);
 
         await RPGMethods.Narrator("\nExits", 10);
         foreach (var exit in Exits.Keys)
-        await RPGMethods.Narrator($" - {exit}", 10);
-    }  
+            await RPGMethods.Narrator($" - {exit}", 10);
+    }
 };
 
