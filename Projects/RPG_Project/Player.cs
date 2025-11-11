@@ -116,6 +116,7 @@ public class Player
         await RPGMethods.Narrator($"Health:         {Health}/{MaxHealth}", 10);
         await RPGMethods.Narrator($"XP:             {CurrentXP}/{XPToNextLevel}", 10);
         await RPGMethods.Narrator($"Level:          {Level}", 10);
+        await RPGMethods.Narrator($"TotalAttack:    {TotalAttack}", 10);
         await RPGMethods.Narrator($"Weapon Attack:  {WeaponAttack}", 10);
         await RPGMethods.Narrator($"BaseAtack:      {BaseAttack}", 10);
         await RPGMethods.Narrator($"Armour:         {Armour}", 10);
