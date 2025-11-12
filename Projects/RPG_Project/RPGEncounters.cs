@@ -22,7 +22,13 @@ public class BaseEnemy
     // Keeping my Total Attack consistent 
     public int TotalAttack => BaseAttack + WeaponAttack;
 
-    public BaseEnemy(string name, int maxHealth, int baseAttack, int armour)
+    // adding range for dynamic damage
+    public int MinHit { get; set; }
+    public int MaxHit { get; set; }
+    
+    public static Random rand = new Random();
+
+    public BaseEnemy(string name, int maxHealth, int baseAttack, int armour, int? minHit = null, int? maxHit = null)
     {
         Name = name;
         MaxHealth = maxHealth;
@@ -30,21 +36,58 @@ public class BaseEnemy
         BaseAttack = baseAttack;
         Armour = armour;
         WeaponAttack = 0; // Default for now
-        XPReward = 50; // Default 50XP 
+
+        MinHit = minHit ?? (int)(TotalAttack * 0.7);
+        MaxHit = maxHit ?? (int)(TotalAttack * 1.3);
+        XPReward = 1 * MaxHealth; // 1 to 1 for health 
     }
     // take damage method to be added to the base class 
     public async Task TakeDamage(int IncomingDamage)
     {
-        Health = await RPGMethods.DealDamage(Name, Health, Armour, IncomingDamage);
+        int acutalDamage = await RPGMethods.DealDamage(Name, Health, Armour, IncomingDamage);
+        Health -= acutalDamage;
         if (Health <= 0)
             await RPGMethods.Narrator($"{Name} has been defeated!", 20);
     }
     // Enemy attacking the player method
-    public async Task AttackPlayer(Player player)
+public async Task AttackPlayer(Player player)
     {
-        await player.TakeDamage(TotalAttack);
+    await RPGMethods.Narrator($"{Name} attacks {player.Name}");
+    int damage = rand.Next(MinHit, MaxHit + 1); // Random damage within enemy range
+                                                // Apply damage via DealDamage
+    int actualDamage = await RPGMethods.DealDamage(player.Name, player.Health, player.Armour, damage);
+    // Actually reduce player health
+    player.Health -= actualDamage;
+}
+
+    public static BaseEnemy GenerateEnemyForRoom(Room room)
+    {
+        if (room.Name == "MonsterPit")
+        {
+        // adding in arandom number gen
+        int roll = rand.Next(1, 6);
+            switch (roll)
+            {
+                case 1:
+                    return new BaseEnemy("Mutant Rat", 15, 10, 0);
+                case 2:
+                    return new BaseEnemy("Rat Abomination", 50, 15, -5);
+                case 3:
+                    return new BaseEnemy("Flesh Puppets", 200, 10, 0);
+                case 4:
+                    return new BaseEnemy("The Shrieking Rat", 50, 20, 0); // adding multiple to saturate others
+                case 5:
+                    return new BaseEnemy("Engineer Rat", 100, 25, 5);
+            }
+        }
+        if (room.Name == "Guard Room")
+            return new BaseEnemy("Rogue Guard", 150, 10, 10);
+        if (room.Name == "Lab")
+            return new BaseEnemy("Rat King", 500, 25, 25);
+        // default
+        return new BaseEnemy("Small Critter", 10, 0, 0);
     }
-};
+}
 
 
 
@@ -81,7 +124,7 @@ public class BaseEnemy
 
 // Mad Scientist / Lab Monsters
 
-// The Shrieking Test Subject
+// The Shrieking Subject
 // A failed human experiment, limbs elongated and skin patchy.
 // Makes horrifying screams that disorient the player.
 // Weak individually, but swarms can overwhelm.

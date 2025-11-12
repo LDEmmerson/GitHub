@@ -11,7 +11,7 @@ using System.Collections.Generic;
 public static class RPGMethods
 {
     // Narrator / Typer 
-    public static async Task Narrator(string text, int delay) // Narrator method created to make my text appear slower not instantly
+    public static async Task Narrator(string text, int delay = 30) // Narrator method created to make my text appear slower not instantly
     {
         // Preventing input 
         Console.CursorVisible = false;
@@ -32,15 +32,15 @@ public static class RPGMethods
     // Player set up 
     public static async Task<string> GetPlayerName()
     {
-        await RPGMethods.Narrator("Finally youre awake, What is your name ?", 50);
+        await RPGMethods.Narrator("Finally youre awake, What is your name ?");
         string namePlayer = Console.ReadLine(); // Taking the players input
 
         while (string.IsNullOrEmpty(namePlayer))
         {
-            await RPGMethods.Narrator("You must have a name.. surely..", 50);
+            await RPGMethods.Narrator("You must have a name.. surely..");
             namePlayer = Console.ReadLine();
         }
-        await RPGMethods.Narrator($"Ahh great, glad to see youre still alive {namePlayer}", 50);
+        await RPGMethods.Narrator($"Ahh great, glad to see youre still alive {namePlayer}");
         return namePlayer;
     }
 
@@ -79,18 +79,19 @@ public static class RPGMethods
 
     // Health And damage system
 
-    public static async Task<int> DealDamage(string TargetName, int TargetHealth, int TargetArmour, int Damage) // Changed 3 Times 
-    {
-        int FinalDamage = Damage - TargetArmour;
-        if (FinalDamage < 0) FinalDamage = 0; // Preventing negative damage this time 
+public static async Task<int> DealDamage(string targetName, int targetHealth, int targetArmour, int damage)
+{
+    int finalDamage = damage - targetArmour;
+    if (finalDamage < 0) finalDamage = 0; // Prevent negative damage
 
-        TargetHealth -= FinalDamage;
-        if (TargetHealth < 0) TargetHealth = 0; // Preventing negative health 
+    targetHealth -= finalDamage;
+    if (targetHealth < 0) targetHealth = 0; // Prevent negative health
 
-        await RPGMethods.Narrator($"{TargetName} took {FinalDamage} damage! Current Health: {TargetHealth}", 10);
+    await RPGMethods.Narrator($"{targetName} took {finalDamage} damage! Current Health: {targetHealth}", 10);
 
-        return TargetHealth;
-    }
+    return finalDamage; // Return the **actual damage applied**, not the new health
+}
+
 
     public static async Task<int> Heal(string TargetName, int CurrentHealth, int MaxHealth, int HealAmount,
     List<string>? Inventory = null, // Should only be for player inventory

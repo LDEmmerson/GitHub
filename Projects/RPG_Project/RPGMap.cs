@@ -23,6 +23,7 @@ public class Room
     {
         Name = name;
         Description = description;
+        Exits = new Dictionary<string, Room>(StringComparer.OrdinalIgnoreCase); // added due to converting to lowercase in my Main
     }
 
     public async Task Describe() // Creating my describe method

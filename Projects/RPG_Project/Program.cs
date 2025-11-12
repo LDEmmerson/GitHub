@@ -1,5 +1,6 @@
 ﻿// Import the System namespace to use Console.WriteLine and other built-in features
 using System;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 // Creating my main program, this needs to be Asyncronhous as i will be using Await for text typing 
@@ -17,55 +18,70 @@ class Program
         player.Inventory.Add("Health Potion");
         player.Inventory.Add("Knife");
         // Begining basic narration 
-        await RPGMethods.Narrator("You dont remember a thing do you.. Lucky for you I guess ", 50);
-        await RPGMethods.Narrator("Youre on Promethues.. a small asteroid dedicated to genetic experementation... cmon' you must remember ", 50);
-        await RPGMethods.Narrator("You are the main biologist running this damn thing ! ", 50);
-        await RPGMethods.Narrator($"Im sorry, {playerName}, this is your fault, you made these things...  ", 50);
-        await RPGMethods.Narrator("Lets take a look at your inventory and see what might be useful", 50);
+        await RPGMethods.Narrator("You dont remember a thing do you.. Lucky for you I guess ");
+        await RPGMethods.Narrator("Youre on Promethues.. a small asteroid dedicated to genetic experementation... cmon' you must remember ");
+        await RPGMethods.Narrator("You are the main biologist running this damn thing ! ");
+        await RPGMethods.Narrator($"Im sorry, {playerName}, this is your fault, you made these things...  ");
+        await RPGMethods.Narrator("Lets take a look at your inventory and see what might be useful");
         await player.ShowInventory();// Displays the inventory 
         // Contuning the story using my narator method
-        await RPGMethods.Narrator("Equip that knife.. youll need it.. ", 50);
-
-        await RPGMethods.Narrator("Choose your action: 1. Equip Knife", 10);
-        string input = Console.ReadLine();
-        switch (input)
+        await RPGMethods.Narrator("Equip that knife.. youll need it.. ");
+        bool ValidChoice = false;
+        while (!ValidChoice)
         {
-            case "1":
-                await player.EquipWeapon("Knife", 5);
-                break;
-            default:
-                await RPGMethods.Narrator("Hmm that didnt work, try typing just a number 1/2/3", 50);
-                break;
+            await RPGMethods.Narrator("Choose your action: 1. Equip Knife", 10);
+            string input = Console.ReadLine();
+            switch (input)
+            {
+                case "1":
+                    await player.EquipWeapon("Knife", 5);
+                    ValidChoice = true;
+                    break;
+                default:
+                    await RPGMethods.Narrator("Hmm that didnt work, try typing just a number 1/2/3");
+                    break;
+            }
         }
         // Displaying current stats 
-        await RPGMethods.Narrator("Great, at least your brain is still working, lets check your stats", 50);
-        await RPGMethods.Narrator("We need to hurry, I can hear something in the corridor  ", 50);
+        await RPGMethods.Narrator("Great, at least your brain is still working, lets check your stats");
+        await RPGMethods.Narrator("We need to hurry, I can hear something in the corridor  ");
         await RPGMethods.Narrator("Choose your action: 1. Check stats", 10);
-        Console.ReadLine();
-        switch (input)
+        bool StatsValidChoice = false;
+        while (!StatsValidChoice)
         {
-            case "1":
-                await player.DisplayStats();
-                break;
-            default:
-                await RPGMethods.Narrator("Hmm that didnt work, try typing just a number 1/2/3", 50);
-                break;
+            string Statsinput = Console.ReadLine();
+            switch (Statsinput)
+            {
+                case "1":
+                    await player.DisplayStats();
+                    StatsValidChoice = true;
+                    break;
+                default:
+                    await RPGMethods.Narrator("Hmm that didnt work, try typing just a number 1/2/3");
+                    break;
+            }
         }
-        await RPGMethods.Narrator("Ahh its a mutated rat! hurry and kill it before is calls for more !", 50);
-        // Starting tutorial battle - manually initiated 
-        await StartBattle(player);
+        await RPGMethods.Narrator("Ahh its a mutated rat! hurry and kill it before is calls for more !");
+        // Starting tutorial battle - manually initiated
+        BaseEnemy enemy = new BaseEnemy("Mutant Rat", 30, 10, 2);
+        await StartBattle(player, enemy);
+        // after the forced tutorial battle, begin the dungeon
+        await ExploreDungeon(player);
+        
+
     }
 
     // AI used to help testing BaseEnemy 
-    public static async Task StartBattle(Player player)
+    public static async Task StartBattle(Player player, BaseEnemy enemy)
     {
-        BaseEnemy enemy = new BaseEnemy("Mutant Rat", 30, 10, 2);
-        await RPGMethods.Narrator($"A wild {enemy.Name} appears!", 50);
+        await RPGMethods.Narrator($"A {enemy.Name} appears!");
+
         while (enemy.Health > 0 && player.Health > 0)
         {
-            await RPGMethods.Narrator($"\nEnemy Health: {enemy.Health}", 50);
-            await RPGMethods.Narrator($"Your Health: {player.Health}", 50);
+            await RPGMethods.Narrator($"\nEnemy Health: {enemy.Health}");
+            await RPGMethods.Narrator($"Your Health: {player.Health}");
             await RPGMethods.Narrator("Choose your action: 1. Attack  2. Heal 3. Show Inventory", 10);
+
             string input = Console.ReadLine();
             switch (input)
             {
@@ -79,7 +95,7 @@ class Program
                     await player.ShowInventory();
                     break;
                 default:
-                    await RPGMethods.Narrator("You fumbled your choice and the enemy attacks!", 50);
+                    await RPGMethods.Narrator("You fumbled your choice and the enemy attacks!");
                     break;
             }
             if (enemy.Health > 0)
@@ -88,31 +104,33 @@ class Program
             }
             if (player.Health <= 0)
             {
-                await RPGMethods.Narrator("You were defeated...", 50);
+                
+                await RPGMethods.Narrator("You were defeated...");
+                await RPGMethods.Narrator("The corridors are filled with laughter");
+                await RPGMethods.Narrator("GAME OVER", 100);
+                Environment.Exit(0);
                 return;
             }
         }
-        await RPGMethods.Narrator($"You defeated the {enemy.Name}!", 50);
+        await RPGMethods.Narrator($"You defeated the {enemy.Name}! Well done adventure, lets move on");
     }
-
-    // For later implimentation
-
 // initiating the dungeon crawl
     static async Task ExploreDungeon(Player player)
     {
-        await RPGMethods.Narrator("Great, now lets move on through the rooms until we can make a safe escape", 50);
+
         var map = MapBuilder.BuildMap(); // Builds my map
-        Room CurrentRoom = map["Enterance"]; // Sets the starting location
+        Room CurrentRoom = map["Entrance"]; // Sets the starting location
         bool Playing = true; // Sets the game as "Playing"
 
         while (Playing)
         {
             // As the game starts and is marked as playing, begin the start sequence
-            CurrentRoom.Describe(); // Describe where you are 
-            await RPGMethods.Narrator("\n What do you do?", 10);
-            await RPGMethods.Narrator("\n Move [North/South/East/West], [Explore] [Quit]", 10);
+            await CurrentRoom.Describe(); // Describe where you are 
+            await RPGMethods.Narrator("What do you do?", 10);
+            string exits = string.Join("/", CurrentRoom.Exits.Keys);
+            await RPGMethods.Narrator($"Move {exits}, Search, Fight, Quit", 10);
             // making the users input lowercase to be easier to match
-            string UserChoice = Console.ReadLine().ToLower(); // Reads the entered text and matches it to lower case
+            string UserChoice =  Console.ReadLine().ToLower(); // Reads the entered text and matches it to lower case
 
             switch (UserChoice)
             {
@@ -129,18 +147,23 @@ class Program
                         if (CurrentRoom.HasEnemy)
                         {
                             await RPGMethods.Narrator("Something stirs in the shadows, you feel eyes watching you.", 10);
-                            // Begin battle here 
-                        }
-                        if (CurrentRoom.HasLoot)
-                        {
-                            await RPGMethods.Narrator("You have found a small potion hidden under the rubble ", 10);
-                            player.Inventory.Add("HealthPotion"); // places the potion into the inventory.
-                            CurrentRoom.HasLoot = false; // Setting the room back to no potions
+                            BaseEnemy enemy = BaseEnemy.GenerateEnemyForRoom(CurrentRoom);
+                            await StartBattle(player, enemy);
+                            CurrentRoom.HasEnemy = true;
                         }
                         if (CurrentRoom.IsBossRoom)
                         {
                             await RPGMethods.Narrator("You sense a monsterous presence nearby...", 10);
-                            // Initiate my boss battle 
+                        BaseEnemy enemy = BaseEnemy.GenerateEnemyForRoom(CurrentRoom);
+                            await StartBattle(player, enemy);
+                            if (enemy.Health <= 0)
+                            {
+                            CurrentRoom.IsBossRoom = false;
+                            await RPGMethods.Narrator($"You have slain {enemy.Name}, the final creature of Prometheus...");
+                            await RPGMethods.Narrator("The corridors fall silent. You’ve survived — for now.");
+                            await RPGMethods.Narrator("GAME OVER", 100);
+                            Playing = false; 
+                            }
                         }
                     }
                     else
@@ -148,13 +171,36 @@ class Program
                         await RPGMethods.Narrator("Youre unable to go that way", 10);
                     }
                     break;
-                case "Quit":
+                case "search":
+                    if (CurrentRoom.HasLoot)
+                    {
+                        await RPGMethods.Narrator("You have found a small potion hidden under the rubble ", 10);
+                        player.Inventory.Add("Health Potion"); // places the potion into the inventory.
+                        CurrentRoom.HasLoot = true; // Setting the room back to true to keep a supply of potions
+                    }
+                    else
+                    {
+                        await CurrentRoom.Describe();
+                    }
+                    break;
+                case "fight":
+                    if (CurrentRoom.HasEnemy)
+                    {
+                        BaseEnemy enemy = BaseEnemy.GenerateEnemyForRoom(CurrentRoom);
+                        await StartBattle(player, enemy);
+                    }
+                    else
+                    {
+                        await RPGMethods.Narrator("Thers nothing to fight here!");
+                    }
+                    break;
+                case "quit":
                     Playing = false;
-                    await RPGMethods.Narrator("Youd decide to rest for now...", 10);
+                    await RPGMethods.Narrator("You decide to rest for now...", 10);
                     break;
                 default:
-                    await RPGMethods.Narrator("Invalid Command...", 10); break;
+                    await RPGMethods.Narrator("Hmm that didnt work.. Try again?", 10); break;
             }
         }
-    }
+    } 
 }

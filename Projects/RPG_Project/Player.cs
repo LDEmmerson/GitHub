@@ -15,6 +15,9 @@ public class Player
     public int Armour { get; set; }
     public int BaseAttack { get; set; }
     public int WeaponAttack { get; set; }
+    public int MinHit { get; set; }
+    public int MaxHit { get; set; }
+    private static Random rand = new Random();
     // creating a inventory
     public List<string> Inventory { get; set; } = new();
 
@@ -29,7 +32,7 @@ public class Player
 
 
     // Building the constructor for this class
-    public Player(string name, int maxHealth, int mana, int baseAttack, int armour)
+    public Player(string name, int maxHealth, int mana, int baseAttack, int armour, int? minHit = null, int? maxHit = null)
     {
         Name = name;
         MaxHealth = maxHealth;
@@ -38,27 +41,36 @@ public class Player
         BaseAttack = baseAttack;
         Armour = armour;
         WeaponAttack = 0;
+
+        MinHit = minHit ?? (int)(TotalAttack * 0.5);
+        MaxHit = maxHit ?? (int)(TotalAttack * 1.3);
     }
     // take damage method to be added to the base class 
     public async Task TakeDamage(int IncomingDamage)
     {
-        Health = await RPGMethods.DealDamage(Name, Health, Armour, IncomingDamage);
+        int damageTaken = await RPGMethods.DealDamage(Name, Health, Armour, IncomingDamage);
+        Health -= damageTaken;
         if (Health <= 0)
             await RPGMethods.Narrator($"{Name} has been defeated!", 20);
     }
     // Enemy attacking the player method
-    public async Task AttackEnemy(BaseEnemy Enemy)
-    {
-        Enemy.Health = await RPGMethods.DealDamage(Enemy.Name, Enemy.Health, Enemy.Armour, TotalAttack);
+public async Task AttackEnemy(BaseEnemy enemy)
+{
+    int damage = rand.Next(MinHit + Level, MaxHit + Level); // Random damage within range
 
-        // check for if player has killed the enemy 
-        if (Enemy.Health <= 0)
-        {
-            await RPGMethods.Narrator($"{Enemy.Name} has been defeated", 20);
-            if (Enemy.XPReward > 0) // only grant if the enemy has it defined
-                await GainXP(Enemy.XPReward);
-        }
+    // Apply damage via DealDamage
+    int actualDamage = await RPGMethods.DealDamage(enemy.Name, enemy.Health, enemy.Armour, damage);
+    // Actually reduce enemy health after narration
+    enemy.Health -= actualDamage;
+
+    if (enemy.Health <= 0)
+    {
+        await RPGMethods.Narrator($"{enemy.Name} has been defeated!", 20);
+        if (enemy.XPReward > 0)
+            await GainXP(enemy.XPReward);
     }
+}
+
     // Adding Health potion options 
     public async Task UsePotion(int HealAmount, string PotionName = "Health Potion")
     {
@@ -79,6 +91,7 @@ public class Player
         Level++; // Level increase
         MaxHealth += 10; // 10 More max health
         BaseAttack += 3; // 3 more attack 
+        Armour += 2;
         Health = MaxHealth; // refreshes health to max 
 
         await RPGMethods.Narrator($"{Name} has leveled up! Now level {Level}", 20);
