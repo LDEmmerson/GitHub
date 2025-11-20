@@ -1,0 +1,17 @@
+# Ignore build output and temporary files for .NET projects
+bin/
+obj/
+*.user
+*.suo
+*.cache
+*.log
+*.vs/
+# Ignore NuGet packages
+*.nupkg
+# Ignore Visual Studio Code settings
+.vscode/
+# Ignore Mac and Windows system files
+.DS_Store
+Thumbs.db
+# Ignore other IDE files
+*.idea/
